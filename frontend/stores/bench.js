@@ -10,20 +10,27 @@ var resetBenches = function(benches) {
 
   // probably not what we want
   benches.forEach(function(bench) {
-    _benches[bench.id] = bench.description;
+    _benches[bench.id] = bench;
   });
-
-  // _benches = benches;  // will probably change this to something else
 };
 
 BenchStore.all = function () {
-  return Object.assign({}, _benches);
+  //this was given to us
+  // return Object.assign({}, _benches);
+
+  //^^ is the original. This is just for fun.
+  var benches = [];
+  Object.keys(_benches).forEach(function(idx) {
+    benches.push(_benches[idx])
+  });
+  return benches;
 };
 
 BenchStore.__onDispatch = function (payload) {
   switch(payload.actionType) {
     case BenchConstants.BENCHES_RECEIVED:
       var result = resetBenches(payload.benches);
+      BenchStore.__emitChange();
       break;
   }
 };

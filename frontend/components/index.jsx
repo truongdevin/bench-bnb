@@ -18,11 +18,11 @@ var Index = React.createClass({
   },
 
   render: function() {
-    // var benches = this.state.benches.map(function(bench){
-    //   return <div>{bench}</div>;
-    // });
+    var benches = this.state.benches.map(function(bench){
+      return <div key={bench.id}>{bench.description}</div>;
+    });
     return (
-      <div>HELLO FROM INDEX</div>
+      <div>{benches}</div>
     );
   }
 });
