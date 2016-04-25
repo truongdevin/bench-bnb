@@ -14,24 +14,31 @@ var resetBenches = function(benches) {
   });
 };
 
+var addBench = function(bench) {
+  _benches[bench.id] = bench;
+};
+
 BenchStore.all = function () {
   //this was given to us
   // return Object.assign({}, _benches);
-
   //^^ is the original. This is just for fun.
   var benches = [];
   Object.keys(_benches).forEach(function(idx) {
-    benches.push(_benches[idx])
+    benches.push(_benches[idx]);
   });
   return benches;
 };
 
 BenchStore.__onDispatch = function (payload) {
+  var result;
   switch(payload.actionType) {
     case BenchConstants.BENCHES_RECEIVED:
-      var result = resetBenches(payload.benches);
+      result = resetBenches(payload.benches);
       BenchStore.__emitChange();
       break;
+    case BenchConstants.BENCH_RECEIVED:
+      result = addBench(payload.bench);
+      BenchStore.__emitChange();
   }
 };
 
