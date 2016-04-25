@@ -2,6 +2,7 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var BenchStore = require('../stores/bench');
 var ClientActions = require('../actions/client_actions');
+var hashHistory = require('react-router').hashHistory;
 
 
 var Map = React.createClass({
@@ -18,6 +19,7 @@ var Map = React.createClass({
     };
     this.map = new google.maps.Map(mapDOMNode, mapOptions);
     this.listenForMove();
+    this.listenForClick();
   },
 
   componentWillUnmount: function() {
@@ -44,6 +46,23 @@ var Map = React.createClass({
   listenForMove: function(){
     google.maps.event.addListener(this.map, 'idle', function() {
       ClientActions.fetchBenches();
+    });
+  },
+
+  listenForClick: function(){
+    var self = this;
+    google.maps.event.addListener(this.map, 'click', function(e) {
+        var lat = e.latLng.lat();
+        var lng = e.latLng.lng();
+        self._handleClick({lat: lat, lng: lng});
+        console.log(lat + ', ' + lng);
+    });
+  },
+
+  _handleClick: function(coords) {
+    hashHistory.push({
+      pathname: "benches/new",
+      query: coords
     });
   },
 

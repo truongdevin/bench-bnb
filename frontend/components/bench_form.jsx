@@ -12,16 +12,25 @@ var BenchForm = React.createClass({
     };
   },
 
+  componentDidMount: function() {
+    this.setState({
+      lat: this.props.location.query.lat,
+      lng: this.props.location.query.lng
+    });
+  },
+
   descriptionChange: function(e) {
     e.preventDefault();
     this.setState({description: e.target.value});
   },
 
+  // no longer used. prefills using query string passed in
   latitudeChange: function(e) {
     e.preventDefault();
     this.setState({lat: e.target.value});
   },
 
+  // no longer used. prefills using query string passed in
   longitudeChange: function(e) {
     e.preventDefault();
     this.setState({lng: e.target.value});
@@ -30,11 +39,6 @@ var BenchForm = React.createClass({
   handleSubmit: function(e) {
     e.preventDefault();
     ClientActions.createBench(this.state);
-    // this.setState({
-    //   description: "",
-    //   lat: "",
-    //   lng: ""
-    // });
     hashHistory.push('/');
   },
 
@@ -51,16 +55,18 @@ var BenchForm = React.createClass({
         <br/>
         <label> Latitude
           <input
+            disabled="true"
             type="text"
-            value={this.state.lat}
+            value={this.props.location.query.lat}
             onChange={this.latitudeChange}/>
         </label>
 
         <br/>
         <label> Longitude
           <input
+            disabled
             type="text"
-            value={this.state.lng}
+            value={this.props.location.query.lng}
             onChange={this.longitudeChange}/>
         </label>
 
