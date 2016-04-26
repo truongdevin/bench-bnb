@@ -10,5 +10,3 @@ var ClientActions = {
 };
 
 module.exports = ClientActions;
-// 37.723662, -122.491569
-//
